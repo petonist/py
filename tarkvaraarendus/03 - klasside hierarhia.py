@@ -24,7 +24,6 @@ class mööbel:                   #main class
         print(f"värvus: {värvus}")
         print(f"materjal: {materjal}")
         
-
 class istumiseks(mööbel):       #subclass
     def __init__(self):
         pass
