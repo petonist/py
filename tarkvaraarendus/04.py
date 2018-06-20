@@ -1,3 +1,21 @@
+"""
+Eesmärgiks on luua graafilise kujundite redaktori 
+simulaator, mis võimaldaks moodustada erinevatest elementidest "põrandaplaane". Nende elementide
+hulka kuuluvad tekst, pilt, graafiline sümbol (palju erinevaid tüüpe), sisse laetud suvaline 
+sümbol jne.
+Elemente peab olema võimalik joonistada (sarnaselt eelmisele ülesandele me hetkel lihtsalt
+trükime teate, et joonistame seda elementi) ning eksportida. Samuti peab element teadma, kas
+tema peale hiirega klikkides jääb tema sinna alla või mitte (ehk teisisõnu omab ta funktsiooni,
+mis testib kas etteantud koordinaadid jäävad tema asukoha ja suuruse sisse).
+Igal elemendil on ID (juhuslik number) ja nimi, mis lubab seda unikaalselt tuvastada. Soovi 
+korral võime lisada ka kirjelduse. Kindlasti on neil asukoht, suurus, värv ja võib-olla veel
+mingid omadused (võite ise välja mõelda, mida vaja võiks olla).
+Rakenduse lõpuks looge klassidest objektid, lisage need mingisse listi ning testige kogu loodud 
+funktsionaalsust - ehk laske neil end joonistada, eksportige kogu objektide graaf ning testige
+mingeid koordinaate tuvastamaks, kas mõni objekt jääb sinna alla.
+
+"""
+
 import uuid
 from matplotlib import pyplot as plt
 
@@ -13,6 +31,7 @@ class FloorElement:
 		self.elementCoordinates = elementCoordinates
 
 	def drawElement(self):
+		self.dimensions = list(map(int, input("sisesta elemendi mõõtmed (xx:yy): ").split(":")))
 		print("--- alustan joonistamist ---")
 		print(f"nimi: {self.name}")
 		print(f"mõõtmed: {self.dimensions}")
@@ -38,19 +57,19 @@ class FloorElement:
 			print("klikk asub elemendil ->", self.name)
 
 	def export(self):
-		x = [self.clickCoordinates[0], self.clickCoordinates[1], self.elementCoordinates[0], self.elementCoordinates[1]]
-		y = [self.clickCoordinates[0], self.clickCoordinates[1], self.dimensions[0], self.dimensions[1]]
+		x = [self.clickCoordinates[0], self.clickCoordinates[0], self.elementCoordinates[0], self.elementCoordinates[0]]
+		y = [self.clickCoordinates[1], self.clickCoordinates[1], self.dimensions[1], self.dimensions[1]]
 		plt.xlabel('x')
 		plt.ylabel('y')
 		plt.title('xx:yy koordinaatide graaf')
 		plt.plot(x, y)
 		plt.show()
-		#elemendi mõõtmeid ei võta arvesse joonistamisel
+		#mõõtmeid ei arvestata õigesti
 
 elements = [
-	FloorElement(name="väike p6randa tykk", dimensions=(10,10), color="sinine", elementType="img"),
-	FloorElement(name="keskmine p6randa tykk", dimensions=(20,30), color="punane", elementType="txt"),
-	FloorElement(name="suur p6randa tykk", dimensions=(60,50), color="l2bipaistev", elementType="sym")
+	FloorElement(name="väike p6randa tykk", color="sinine", elementType="img"),
+	FloorElement(name="keskmine p6randa tykk", color="punane", elementType="txt"),
+	FloorElement(name="suur p6randa tykk", color="l2bipaistev", elementType="sym")
 ]
 
 for element in elements:
